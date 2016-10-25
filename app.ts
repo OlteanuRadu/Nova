@@ -11,7 +11,7 @@ import * as bodyParser from 'body-parser';
 
 import * as wapi from './src/infrastructure/services/personService';
 
-    import * as chalk from 'chalk';
+import * as chalk from 'chalk';
 
     var http = require('http');
 

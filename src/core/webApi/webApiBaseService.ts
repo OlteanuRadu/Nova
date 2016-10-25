@@ -8,6 +8,8 @@ export module WebApiBaseService {
 
     export abstract class WebApiBaseService<T extends mongoose.Model<mongoose.Document>>{
 
+        public router: Router;
+
         public constructor(public repo: db.GenericRepository.IRepository<T>) {
 
         }
@@ -15,9 +17,9 @@ export module WebApiBaseService {
         private dataBuffer = [];
 
         public configRoutes() {
-            const router = Router();
+            this.router = Router();
 
-            router.get("/", (request: express.Request, response: express.Response) => {
+           this.router.get("/", (request: express.Request, response: express.Response) => {
                 this.repo.listAll()
                         .subscribe(_ =>
                         this.onNext(_),
@@ -26,14 +28,21 @@ export module WebApiBaseService {
                             this.onCompleted(response);
                         });
 
-                router.get("/:key", (request: express.Request, response: express.Response) => {
+            this.router.get("/:key", (request: express.Request, response: express.Response) => {
                     this.repo.listById(request.params.key).subscribe(_ => {
                         response.json(_);
                     });
                 });
             });
 
-            return router;
+           this. router.post("/", (request: express.Request, response: express.Response) => {
+                this.repo.create(request.body).subscribe(_ => 
+                    this.onNext(_),
+                    (e) => this.onError(e, response),
+                    () => this.onCompleted(response));
+            });
+
+            return this.router;
         }
 
         private onError(error: any, response: express.Response) {

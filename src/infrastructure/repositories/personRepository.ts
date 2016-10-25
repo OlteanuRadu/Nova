@@ -7,9 +7,16 @@ export var person = models.person;
 
 export module PersonRepository {
 
-    export class PersonRepository<person> extends GenericRepository.GenericRepository<any>{
+    export class PersonRepository<person> extends GenericRepository.GenericRepository<any> implements IPersonRepository<person> {
         constructor() {
             super(person);
         }
+
+        customQuery() {
+        }
+    }
+
+    export interface IPersonRepository<person> extends GenericRepository.IRepository<person>  {
+        customQuery(): any;
     }
 }

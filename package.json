@@ -14,7 +14,10 @@
     "linq": "^3.0.5",
     "mongodb": "^2.2.10",
     "mongoose": "^4.6.4",
+    "odata-resource": "^0.2.1",
+    "odata-server": "^1.3.7",
     "pluralize": "^3.0.0",
-    "rx": "^4.1.0"
+    "rx": "^4.1.0",
+    "simple-odata-server": "^0.2.0"
   }
 }
