@@ -7,6 +7,7 @@
 /// <reference path="linq/linq.d.ts" />
 /// <reference path="rx/rx.d.ts" />
 /// <reference path="chalk/chalk.d.ts" />
+/// <reference path="cors/cors.d.ts" />
 
 
 
