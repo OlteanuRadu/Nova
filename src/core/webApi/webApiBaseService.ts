@@ -12,17 +12,19 @@ export module WebApiBaseService {
 
         }
 
+        private dataBuffer = [];
+
         public configRoutes() {
             const router = Router();
-
-            var dataBuffer = [];
 
             router.get("/", (request: express.Request, response: express.Response) => {
                 this.repo.listAll()
                         .subscribe(_ =>
-                        this.onNext(dataBuffer, _),
+                        this.onNext(_),
                         (e) => this.onError(e, response),
-                        () => this.onCompleted(dataBuffer, response));
+                        () => {
+                            this.onCompleted(response);
+                        });
 
                 router.get("/:key", (request: express.Request, response: express.Response) => {
                     this.repo.listById(request.params.key).subscribe(_ => {
@@ -37,12 +39,12 @@ export module WebApiBaseService {
         private onError(error: any, response: express.Response) {
             response.send(error).end();
         }
-        private onNext(dataBuffer: any[], data: any) {
-            dataBuffer.push(data);
+        private onNext(data: any) {
+            this.dataBuffer.push(data);
         }
-        private onCompleted(dataBuffer: any[], response: express.Response ) {
-            response.json(dataBuffer);
-            dataBuffer = [];
+        private onCompleted(response: express.Response ) {
+            response.json(this.dataBuffer);
+            this.dataBuffer.length = 0;
         }
     }
 }
